@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Pesan Pengunjung{% endblock %}{% block content %}
+<section class="container py-5">
+<div class="d-flex justify-content-between align-items-center mb-4"><div><span class="eyebrow">CMS PTI</span><h1 class="h2 fw-bold">Pesan Pengunjung</h1></div><a class="btn btn-outline-secondary" href="{{ url_for('admin.dashboard') }}">Dashboard</a></div>
+<div class="row g-3">
+{% for item in messages %}<div class="col-12"><div class="admin-panel"><div class="d-flex justify-content-between flex-wrap gap-2"><div><h5>{{ item.subject }}</h5><p class="small text-secondary mb-2">{{ item.name }} • {{ item.email }} • {{ item.created_at.strftime('%d-%m-%Y %H:%M') }}</p></div><span class="badge {{ 'text-bg-success' if item.is_read else 'text-bg-warning' }}">{{ 'Dibaca' if item.is_read else 'Belum dibaca' }}</span></div><p class="mb-3">{{ item.message }}</p>{% if not item.is_read %}<form method="post" action="{{ url_for('admin.message_read', message_id=item.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-sm btn-outline-primary">Tandai dibaca</button></form>{% endif %}</div></div>
+{% else %}<div class="col-12"><div class="empty-state"><i class="bi bi-envelope"></i><h4>Belum ada pesan</h4></div></div>{% endfor %}
+</div></section>{% endblock %}
